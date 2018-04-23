@@ -32,9 +32,9 @@ end
 # PHASE 4
 class BestFriend
   def initialize(name, yrs_known, fav_pastime)
-    # raise "Empty name" if name.length == 0
+    raise "Empty name" if name.length == 0
     @name = name
-    # raise "#{yrs_known} is less than 5" if yrs_known < 5
+    raise "#{yrs_known} is less than 5" if yrs_known < 5
     @yrs_known = yrs_known
     raise "Empty past time" if fav_pastime.length == 0
     @fav_pastime = fav_pastime
