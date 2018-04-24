@@ -36,7 +36,7 @@ class Cursor
 
   def initialize(cursor_pos, board)
     @cursor_pos = cursor_pos
-    @start_pos = []
+
     @board = board
   end
 
@@ -77,31 +77,53 @@ class Cursor
   end
 
   def handle_key(key) #calculating new pos
-   
-      if MOVES.include?(key)
-        @cursor_pos[0] += MOVES[key][0]
-        @cursor_pos[1] += MOVES[key][1]
-      elsif key == :return || key == :space
-        if @start_pos.empty?
-          @start_pos = @cursor_pos
-        else 
-          @board.move_piece(@start_pos, @cursor_pos)
-          @start_pos = []
-        end 
-      end
-      case key
-      when :left
-      
-      when :right
-        
-      when :up
-      when :down
-      end
-      possible_pos +=
-    # end 
-    
+
+
+    if MOVES.include?(key)
+      update_pos(MOVES[key])
+      return nil
+    elsif key == :return || key == :space
+      return @cursor_pos
+    elsif key == :ctrl_c # exit the terminal
+      exit
+    end
+
+
+
+
+
+
+    #   if MOVES.include?(key)
+    #     @cursor_pos[0] += MOVES[key][0]
+    #     @cursor_pos[1] += MOVES[key][1]
+    #   elsif key == :return || key == :space
+    #     if @start_pos.empty?
+    #       @start_pos = @cursor_pos
+    #     else
+    #       @board.move_piece(@start_pos, @cursor_pos)
+    #       @start_pos = []
+    #     end
+    #   end
+    #   case key
+    #   when :left
+    #
+    #   when :right
+    #
+    #   when :up
+    #   when :down
+    #   end
+    #   possible_pos +=
+    # # end
+
   end
 
   def update_pos(diff)
+    temp_cursor = @cursor_pos.dup
+    temp_cursor[0] += diff[0]
+    temp_cursor[1] += diff[1]
+     @board.valid_pos?(temp_cursor)
+    if @board.valid_pos?(temp_cursor)
+      @cursor_pos = temp_cursor
+    end
   end
 end
