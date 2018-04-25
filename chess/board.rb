@@ -66,7 +66,7 @@ class Board
     if @board[s_row][s_col].class == NullPiece
 
       # raise "No piece there!"
-    elsif @board[s_row][s_col].moves.include?(end_pos) && @color == color
+    elsif @board[s_row][s_col].moves.include?(end_pos) && @color == color && !move_into_check?(end_pos)
       @board[e_row][e_col] = @board[s_row][s_col]
       @board[s_row][s_col] = NullPiece.instance
       @board[e_row][e_col].set_pos(end_pos)
@@ -104,19 +104,14 @@ class Board
     false
   end
 
-  def move_into_check(end_pos)
+  def move_into_check?(end_pos)
     temp_board = self.deep_dup
     in_check?(@color, temp_board)
 
   end
 
   def deep_dup
-
-
-
-    @board.map {|el|  el.is_a?(Array) ? el.deep_dup : el }
-
-
+    @board.map {|el|  el.is_a?(Array) ? el.map {|el|} : el }
   end
 
   def checkmate?(color)
